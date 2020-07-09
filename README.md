@@ -109,7 +109,7 @@
 
    3.5 Import the dashboard [TICK - Speedtest-External](dashboard/TICK - Speedtest-External.json)
 
-   ![Example](imgs/TICK - Speedtest-External.png)
+   ![Dashboard Example](imgs/TICK-Speedtest-External.png)
 
 ### Troubleshooting
 
