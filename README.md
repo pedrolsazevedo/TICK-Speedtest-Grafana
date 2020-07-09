@@ -107,7 +107,7 @@
 
    3.4 Configure the InfluxDB datasource.
 
-   3.5 Import the dashboard [TICK - Speedtest-External](dashboard/TICK - Speedtest-External.json)
+   3.5 Import the dashboard [TICK - Speedtest-External](dashboard/TICK-Speedtest-External.json)
 
    ![Dashboard Example](imgs/TICK-Speedtest-External.png)
 
