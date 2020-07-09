@@ -107,8 +107,10 @@
 
    3.4 Configure the InfluxDB datasource.
 
-   3.5 Import the dashboard [TICK - Speedtest-External](dashboard/TICK-Speedtest-External.json)
+   3.5 Import the dashboard [TICK - Speedtest-External](dashboard/TICK-Speedtest-External.json) or through Grafana site with:
 
+   ID 12618 - https://grafana.com/grafana/dashboards/12618
+   
    ![Dashboard Example](imgs/TICK-Speedtest-External.png)
 
 ### Troubleshooting
