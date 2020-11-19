@@ -44,7 +44,7 @@
 2. Auto start on startup
 
    ```bash
-   sudo systemctl enable {grafana-server,influxdb,telegraf}
+   sudo systemctl enable --now {grafana-server,influxdb,telegraf}
    ```
 
 ### Configuration
@@ -61,7 +61,7 @@
    1.3 After editing you gonna need restart the service InfluxDB
 
    ```bash
-   sudo systemctl enable influxdb
+   sudo systemctl restart influxdb
    ```
 	
 1. **Telegraf**
@@ -95,7 +95,7 @@
 
    3.1 Configuring Grafana Server to run on port 80
 
-   3.2 Edit `/etc/grafana`, uncomment the line http_port = 3000 and change to http_port = 80
+   3.2 Edit `/etc/grafana/grafana.ini`, uncomment the line http_port = 3000 and change to http_port = 80
 
    3.3 Allow the binary to run in port 80 
 
