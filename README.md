@@ -1,6 +1,19 @@
+## About
+
+My plans with this project was to evaluate the quality of service of my ISP, with periodical tests along the day.
+
+The config file that I use for Telegraf execute a speedtest test every 1 hour, you can change that in input.exec - interval
+
 ### Configuring the repositories
 
-1. Influx Repository
+1. **Necessary tools**
+
+   ```bash
+   sudo apt-get install -y apt-transport-https dirmngr gnupg1 
+   sudo apt-get install -y software-properties-common wget
+   ```
+   
+2. **Influx Repository**
 
    ```bash
    wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
@@ -8,11 +21,9 @@
    echo "deb https://repos.influxdata.com/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
    ```
 
-2. Grafana
+3. **Grafana**
 
    ```bash
-   sudo apt-get install -y apt-transport-https dirmngr gnupg1 
-   sudo apt-get install -y software-properties-common wget
    wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
    
    ## Stable OSS Repository
@@ -22,14 +33,16 @@
    echo "deb https://packages.grafana.com/oss/deb beta main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
    ```
 
-3. Speedtest
+4. **Speedtest**
 
    ```bash
    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61
    echo "deb https://ookla.bintray.com/debian $(lsb_release -sc) main" | sudo tee  /etc/apt/sources.list.d/speedtest.list
    ```
 
-### Installing the TICK stack and Grafana
+   More information about the installation of speedtest cli on: https://www.speedtest.net/apps/cli
+
+### Installing the TIC stack and Grafana
 
 1. Install
 
@@ -38,8 +51,6 @@
    sudo apt update
    sudo apt install influxdb telegraf chronograf grafana speedtest
    ```
-
-   
 
 2. Auto start on startup
 
@@ -63,6 +74,18 @@
    ```bash
    sudo systemctl restart influxdb
    ```
+	
+   **`OPTIONAL`**
+	1.4 Create a admin user
+	
+	```bash
+	CREATE USER <username> WITH PASSWORD '<password>' WITH ALL PRIVILEGES
+	```
+	
+	1.5 Edit `/etc/influxdb/influxdb.conf` and change the value of `auth-enable` from `false` to `true` then restart the influx server with the command:
+	```bash
+	sudo systemctl restart influxd
+	```
 	
 1. **Telegraf**
 
@@ -105,13 +128,28 @@
 
    **Note**: This command need to be executed every time that you update your grafana.
 
-   3.4 Configure the InfluxDB datasource.
+   3.4 Configure the InfluxDB datasource. [Grafana Doc](https://grafana.com/docs/grafana/latest/datasources/influxdb/)
 
    3.5 Import the dashboard [TICK - Speedtest-External](dashboard/TICK-Speedtest-External.json) or through Grafana site with:
 
    ID 12618 - https://grafana.com/grafana/dashboards/12618
    
    ![Dashboard Example](imgs/TICK-Speedtest-External.png)
+
+4. **Speedtest**
+    4.1 Run a speedtest test and accept the EULA if you agree 
+    
+    ```bash
+    speedtest -f json-pretty
+	```
+    4.2 Copy the .config folder in your home to /etc/telegraf/ and set the permissions
+    ```bash
+    ## copy the .config folder in your home to /etc/telegraf/
+    cp -R ~/.config /etc/telegraf
+    
+    ## set permissions for telegraf
+    chown -R telegraf /etc/telegraf/.config
+    ```
 
 ### Troubleshooting
 
@@ -128,16 +166,7 @@
    sudo sysctl -w net.ipv4.route.flush=1
    ```
 
-2. Speedtest not executing as Telegraf.
-
-   ```bash
-   ## copy the .config folder in your home to /etc/telegraf/
-   cp ~/.config /etc/telegraf
-   
-   ## set permissions for telegraf
-   chown -R telegraf /etc/telegraf/.config
-   ```
-
    
 
    
+
