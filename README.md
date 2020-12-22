@@ -136,7 +136,7 @@ The config file that I use for Telegraf execute a speedtest test every 1 hour, y
    
    ![Dashboard Example](imgs/TICK-Speedtest-External.png)
 
-4. **Speedtest**
+4. **Speedtest**  
     4.1 Run a speedtest test and accept the EULA if you agree 
     
     ```bash
