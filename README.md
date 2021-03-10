@@ -49,7 +49,7 @@ The config file that I use for Telegraf execute a speedtest test every 1 hour, y
    ```bash
    sudo apt clean all
    sudo apt update
-   sudo apt install influxdb telegraf chronograf grafana speedtest
+   sudo apt install -y influxdb telegraf chronograf grafana speedtest
    ```
 
 2. Auto start on startup
@@ -65,7 +65,7 @@ The config file that I use for Telegraf execute a speedtest test every 1 hour, y
 
    1.1 You need to edit the `/etc/influxdb/influxdb.conf`
 
-   1.2 You can use your on configuration our this [influxdb.conf](config/influxdb.conf).
+   1.2 You can use your on configuration or this [influxdb.conf](config/influxdb.conf).
 
    **Note**: This configuration file is very simple and should be revised to work with your environment.  
 
