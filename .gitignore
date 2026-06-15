@@ -1,0 +1,4 @@
+.env
+*.swp
+*.swo
+helm/speedtest-monitor/charts/*.tgz

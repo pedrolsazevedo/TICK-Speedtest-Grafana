@@ -1,0 +1,58 @@
+# Telegraf + Speedtest settings
+telegraf:
+  image:
+    repository: ghcr.io/pedrolsazevedo/speedtest-telegraf
+    tag: latest
+    pullPolicy: IfNotPresent
+  interval: "60m"
+
+# InfluxDB 2.x subchart values
+influxdb2:
+  image:
+    repository: influxdb
+    tag: "2.9"
+  adminUser:
+    organization: home
+    bucket: speedtest
+    user: admin
+    password: changeme123
+    token: my-super-secret-token
+  persistence:
+    enabled: true
+    size: 5Gi
+
+# Grafana subchart values
+grafana:
+  image:
+    repository: grafana/grafana
+    tag: "13.0.2"
+  adminUser: admin
+  adminPassword: admin
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: InfluxDB
+          type: influxdb
+          access: proxy
+          url: http://{{ .Release.Name }}-influxdb2
+          jsonData:
+            version: Flux
+            organization: home
+            defaultBucket: speedtest
+          secureJsonData:
+            token: my-super-secret-token
+          isDefault: true
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          options:
+            path: /var/lib/grafana/dashboards/default
+  dashboardsConfigMaps:
+    default: "{{ .Release.Name }}-grafana-dashboards"
