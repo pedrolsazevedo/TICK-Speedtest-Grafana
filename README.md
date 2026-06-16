@@ -162,7 +162,7 @@ helm uninstall speedtest -n monitoring
 This Docker Compose rewrite addresses the following reported issues:
 
 - **#4 — Speedtest link opens about:blank**: Fixed by replacing the deprecated `table-old` panel with a modern `table` panel using data links with `targetBlank: true`.
-- **#6 — Telegraf not working (EULA not accepted)**: Fixed by pre-accepting the Speedtest EULA in the Dockerfile and passing `--accept-license` in the command.
+- **#6 — Telegraf not working (EULA not accepted)**: Fixed by pre-accepting the Speedtest EULA and GDPR consent in the Dockerfile and passing `--accept-license --accept-gdpr` in the command.
 - **#7 — No data on dashboard**: Fixed by using InfluxDB 2.x with health checks — Telegraf only starts after InfluxDB is healthy.
 
 ## Troubleshooting
@@ -184,7 +184,7 @@ Then `sudo sysctl -p` to apply.
 ./deploy.sh logs telegraf
 
 # Force a speedtest run
-docker exec telegraf speedtest --accept-license -f json-pretty
+docker exec telegraf speedtest --accept-license --accept-gdpr -f json-pretty
 ```
 
 ### Reset everything

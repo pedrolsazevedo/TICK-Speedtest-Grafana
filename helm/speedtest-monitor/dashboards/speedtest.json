@@ -81,7 +81,7 @@
           }
         ]
       },
-      "gridPos": { "h": 8, "w": 17, "x": 3, "y": 1 },
+      "gridPos": { "h": 8, "w": 21, "x": 3, "y": 1 },
       "id": 2,
       "options": {
         "legend": { "calcs": ["min", "max", "mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
@@ -180,7 +180,7 @@
           "unit": "ms"
         }
       },
-      "gridPos": { "h": 8, "w": 17, "x": 3, "y": 9 },
+      "gridPos": { "h": 8, "w": 21, "x": 3, "y": 9 },
       "id": 14,
       "options": {
         "legend": { "calcs": ["min", "max", "mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
@@ -236,28 +236,68 @@
     {
       "datasource": { "type": "influxdb", "uid": "influxdb" },
       "fieldConfig": {
-        "defaults": {},
+        "defaults": {
+          "custom": {
+            "align": "left",
+            "displayMode": "auto",
+            "inspect": false,
+            "filterable": false
+          }
+        },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "result_url" },
+            "matcher": { "id": "byName", "options": "Result URL" },
             "properties": [
               {
                 "id": "links",
-                "value": [{ "title": "Speedtest Result", "url": "${__value.text}", "targetBlank": true }]
+                "value": [{ "title": "Open Result", "url": "${__value.text}", "targetBlank": true }]
               }
             ]
           }
         ]
       },
-      "gridPos": { "h": 6, "w": 20, "x": 0, "y": 17 },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 17 },
       "id": 12,
       "options": {
         "showHeader": true,
-        "sortBy": [{ "desc": true, "displayName": "_time" }]
+        "cellHeight": "sm",
+        "frameIndex": 0,
+        "footer": { "show": false, "reducer": [], "countRows": false, "fields": [] },
+        "sortBy": []
       },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "_start": true,
+              "_stop": true,
+              "_measurement": true,
+              "host": true,
+              "table": true
+            },
+            "indexByName": {
+              "_time": 0,
+              "server_host": 1,
+              "server_ip": 2,
+              "server_location": 3,
+              "server_id": 4,
+              "result_url": 5
+            },
+            "renameByName": {
+              "_time": "Time",
+              "server_host": "Server",
+              "server_ip": "IP",
+              "server_location": "Location",
+              "server_id": "Server ID",
+              "result_url": "Result URL"
+            }
+          }
+        }
+      ],
       "targets": [
         {
-          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"Speedtest\")\n  |> filter(fn: (r) => r._field == \"server_host\" or r._field == \"server_ip\" or r._field == \"server_location\" or r._field == \"server_id\" or r._field == \"result_url\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> sort(columns: [\"_time\"], desc: true)\n  |> limit(n: 10)",
+          "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"Speedtest\")\n  |> filter(fn: (r) => r._field == \"server_host\" or r._field == \"server_ip\" or r._field == \"server_location\" or r._field == \"server_id\" or r._field == \"result_url\")\n  |> pivot(rowKey: [\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> sort(columns: [\"_time\"], desc: true)\n  |> limit(n: 10)\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\", \"host\", \"table\"])",
           "refId": "A"
         }
       ],

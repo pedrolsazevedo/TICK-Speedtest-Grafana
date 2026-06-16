@@ -8,6 +8,8 @@ generate_token() { openssl rand -hex 32; }
 
 # Create .env with random passwords if it doesn't exist
 if [ ! -f "$ENV_FILE" ]; then
+  # Remove existing volumes to ensure fresh credentials take effect
+  docker compose down -v 2>/dev/null || true
   echo "Generating $ENV_FILE with random credentials..."
   cat > "$ENV_FILE" <<EOF
 INFLUXDB_ADMIN_USER=admin
