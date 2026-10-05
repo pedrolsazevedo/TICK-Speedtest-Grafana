@@ -42,7 +42,7 @@ services:
       - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
   grafana:
-    image: grafana/grafana:13.2.0
+    image: grafana/grafana:13.2.3
     container_name: grafana
     restart: unless-stopped
     depends_on:
